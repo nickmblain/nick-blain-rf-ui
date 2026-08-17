@@ -253,7 +253,7 @@
       font-size: 14px;
       font-weight: 600;
       color: $color-text-header;
-      line-height: 1.3;
+      line-height: 24px;
     }
 
     &__edit-btn {
