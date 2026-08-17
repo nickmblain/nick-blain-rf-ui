@@ -1,5 +1,5 @@
 <script>
-  import personPortalIcon from '../../assets/person-portal.png';
+  import PersonPortalIcon from '../icons/PersonPortalIcon.svelte';
   import WorkflowArrowIcon from '../icons/WorkflowArrowIcon.svelte';
   import PlusIcon from '../icons/PlusIcon.svelte';
   import LaptopIcon from '../icons/LaptopIcon.svelte';
@@ -20,7 +20,7 @@
 
 <div class="guide__module" id="guide-module">
   <div class="guide__module-header">
-    <img class="guide__module-icon" src={personPortalIcon} alt="" />
+    <span class="guide__module-icon"><PersonPortalIcon /></span>
     <h3 class="guide__module-title">Attendee</h3>
   </div>
 
@@ -114,9 +114,10 @@
     }
 
     &__module-icon {
-      display: block;
+      display: flex;
       width: $module-icon-size;
       height: $module-icon-size;
+      flex-shrink: 0;
     }
 
     &__module-title {

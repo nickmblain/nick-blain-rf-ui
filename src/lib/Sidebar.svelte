@@ -1,9 +1,9 @@
 <script>
   import { scale } from 'svelte/transition';
-  import rfLogo from '../assets/rf-logo.png';
   import eventLogo from '../assets/event-logo.png';
   import SearchIcon from './icons/SearchIcon.svelte';
   import EditIcon from './icons/EditIcon.svelte';
+  import RfLogoIcon from './icons/RfLogoIcon.svelte';
 
   /**
    * @typedef {{ id: string, label: string, anchor?: string }} NavChild
@@ -91,7 +91,7 @@
   <div class="sidebar__rail">
     <div class="sidebar__rail-top">
       <div class="sidebar__rail-logo-wrap">
-        <img class="sidebar__rail-logo" src={rfLogo} alt="RainFocus" />
+        <span class="sidebar__rail-logo" aria-label="RainFocus"><RfLogoIcon /></span>
       </div>
       <button class="sidebar__rail-event" type="button" aria-label="RainFocus Summit">
         <img class="sidebar__rail-event-icon" src={eventLogo} alt="" />
@@ -195,12 +195,18 @@
       align-items: center;
       justify-content: center;
       width: 100%;
+      padding: 8px 12px 24px;
     }
 
     &__rail-logo {
-      width: 100%;
-      height: auto;
-      display: block;
+      display: flex;
+      width: 24px;
+      flex-shrink: 0;
+
+      :global(svg) {
+        width: 100%;
+        height: auto;
+      }
     }
 
     &__rail-event {
