@@ -1,9 +1,10 @@
 <script>
+  import { onMount } from 'svelte';
   import Sidebar from './lib/Sidebar.svelte';
   import MainContent from './lib/MainContent.svelte';
 
   let sidebarOpen = $state(false);
-  let activeNavId = $state('attendees');
+  let activeNavId = $state('guide');
   let editButtonVisible = $state(true);
 
   /**
@@ -16,6 +17,52 @@
       document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
+  onMount(() => {
+    /** @type {[string, string][]} */
+    const sectionOrder = [
+      ['guide-intro', 'guide'],
+      ['guide-module', 'attendees'],
+      ['section-content', 'content'],
+      ['section-exhibitors', 'exhibitors'],
+    ];
+
+    /** @type {Map<Element, string>} */
+    const elementToNavId = new Map();
+    const visible = new Set();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const navId = elementToNavId.get(entry.target);
+          if (!navId) continue;
+          if (entry.isIntersecting) {
+            visible.add(navId);
+          } else {
+            visible.delete(navId);
+          }
+        }
+        for (let i = sectionOrder.length - 1; i >= 0; i--) {
+          const navId = sectionOrder[i][1];
+          if (visible.has(navId)) {
+            activeNavId = navId;
+            break;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -80% 0px', threshold: 0 },
+    );
+
+    for (const [id, navId] of sectionOrder) {
+      const el = document.getElementById(id);
+      if (el) {
+        elementToNavId.set(el, navId);
+        observer.observe(el);
+      }
+    }
+
+    return () => observer.disconnect();
+  });
 </script>
 
 <div class="app">

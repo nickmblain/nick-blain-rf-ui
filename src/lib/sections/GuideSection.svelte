@@ -11,7 +11,7 @@
   ];
 </script>
 
-<section class="guide">
+<section class="guide" id="guide-intro">
   <h2 class="guide__heading">Event setup guide</h2>
   <p class="guide__description">
     See the available list of modules below. We suggest that you start with the attendee module.
@@ -118,6 +118,11 @@
       width: $module-icon-size;
       height: $module-icon-size;
       flex-shrink: 0;
+
+      :global(svg) {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     &__module-title {
