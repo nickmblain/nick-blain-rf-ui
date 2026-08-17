@@ -3,17 +3,33 @@
   import eventLogo from '../assets/event-logo.png';
   import SearchIcon from './icons/SearchIcon.svelte';
 
+  /**
+   * @typedef {{ id: string, label: string, anchor?: string }} NavChild
+   * @typedef {{ id: string, label: string, page: string, anchor?: string, children: NavChild[] }} NavSection
+   */
+
+  /**
+   * @typedef {object} Props
+   * @property {boolean} [open]
+   * @property {() => void} [onClose]
+   * @property {string} [activeId]
+   * @property {(page: string, id: string, anchor?: string) => void} [onNavigate]
+   */
+
+  /** @type {Props} */
   let { open = false, onClose = () => {}, activeId = 'attendees', onNavigate = () => {} } = $props();
 
+  /** @type {NavSection[]} */
   const navSections = [
     { id: 'guide', label: 'Guide', page: 'guide', children: [] },
     {
       id: 'attendees',
       label: 'Attendees',
       page: 'guide',
+      anchor: 'guide-module',
       children: [
-        { id: 'attendees-list', label: 'Attendees' },
-        { id: 'attendee-types', label: 'Attendee types' },
+        { id: 'attendees-list', label: 'Attendees', anchor: 'guide-module' },
+        { id: 'attendee-types', label: 'Attendee types', anchor: 'guide-step-1' },
         { id: 'packages', label: 'Packages' },
         { id: 'reg-codes', label: 'Reg codes' },
         { id: 'discounts', label: 'Discounts' },
@@ -26,8 +42,9 @@
   let query = $state('');
 
   /**
-   * @param {typeof navSections} sections
+   * @param {NavSection[]} sections
    * @param {string} needle
+   * @returns {NavSection[]}
    */
   function filterSections(sections, needle) {
     const q = needle.trim().toLowerCase();
@@ -44,15 +61,18 @@
 
   let filteredSections = $derived(filterSections(navSections, query));
 
-  /** @param {typeof navSections[number]} section */
+  /** @param {NavSection} section */
   function selectSection(section) {
-    onNavigate(section.page, section.id);
+    onNavigate(section.page, section.id, section.anchor);
     onClose();
   }
 
-  /** @param {typeof navSections[number]} section */
-  function selectChild(section) {
-    onNavigate(section.page, section.id);
+  /**
+   * @param {NavSection} section
+   * @param {NavChild} child
+   */
+  function selectChild(section, child) {
+    onNavigate(section.page, section.id, child.anchor);
     onClose();
   }
 </script>
@@ -103,7 +123,7 @@
             <ul class="sidebar__nav-children">
               {#each section.children as child (child.id)}
                 <li>
-                  <button class="sidebar__nav-child" type="button" onclick={() => selectChild(section)}>
+                  <button class="sidebar__nav-child" type="button" onclick={() => selectChild(section, child)}>
                     {child.label}
                   </button>
                 </li>

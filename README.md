@@ -63,6 +63,7 @@ The layout is full-width on desktop. Below the tablet breakpoint, the sidebar co
 Beyond the static mockup, the sidebar navigation is fully wired up:
 
 - **Working navigation** — every nav item and sub-item (Guide, Attendees and its children, Content, Exhibitors) is a real, clickable control that switches the active page in the main content area and updates the active/highlighted state in the sidebar.
+- **Anchor links to real sections** — where a sub-item corresponds to an actual section of the page, clicking it also smooth-scrolls straight to that section (e.g. "Attendees" jumps to the Attendee module, "Attendee types" jumps to the Step 1 card that defines attendee types). Sub-items with no matching section on the page just navigate normally.
 - **Sidebar search** — typing in the sidebar's search box filters the nav list live, matching against both top-level items and their children (a matching child keeps its parent group visible even if the parent's label doesn't match).
 - **A built-out Exhibitors page** — since only the Attendees/"Event setup guide" screen was provided in the design, the Exhibitors page was designed from scratch using the same visual language (colors, spacing, card and typography styles) as the rest of the app. It includes a sample exhibitor list, its own search-to-filter box, and an "Add Exhibitor" action.
 - The "Content" nav item routes to a small placeholder page, since no design was provided for it either.

@@ -18,13 +18,13 @@
   </p>
 </section>
 
-<div class="guide__module">
+<div class="guide__module" id="guide-module">
   <div class="guide__module-header">
     <img class="guide__module-icon" src={personPortalIcon} alt="" />
     <h3 class="guide__module-title">Attendee</h3>
   </div>
 
-  <div class="guide__step">
+  <div class="guide__step" id="guide-step-1">
     <p class="guide__step-label"><strong>Step 1:</strong> Base settings.</p>
     <div class="settings-card">
       <div class="settings-card__col">
