@@ -1,4 +1,6 @@
-<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect x="5" y="5" width="14" height="9.5" rx="1.2" stroke="currentColor" stroke-width="1.6" />
-  <path d="M2.5 18.5h19l-1.6-3H4.1l-1.6 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+<svg viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path
+    d="M20 14C21.1 14 21.99 13.1 21.99 12L22 2C22 0.9 21.1 0 20 0H4C2.9 0 2 0.9 2 2V12C2 13.1 2.9 14 4 14H0V16H24V14H20ZM4 2H20V12H4V2Z"
+    fill="currentColor"
+  />
 </svg>

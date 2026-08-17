@@ -27,6 +27,8 @@ npm run build
 
 This outputs a static site to the `build/` folder. It's fully self-contained: open `build/index.html` directly in a browser (no server required) to view the finished app.
 
+The build uses [`vite-plugin-singlefile`](https://github.com/richardtallent/vite-plugin-singlefile) to inline all JS, CSS, and images into `index.html` itself. This is needed because opening a normal Vite build's `index.html` straight from disk (`file://`) fails in Chromium-based browsers: they block the `<script type="module" src="...">` tag Vite generates by default from fetching its module over the `file://` protocol (a CORS restriction), leaving a blank page. Inlining everything into one file avoids that fetch entirely.
+
 To preview the production build locally instead of opening the file directly:
 
 ```bash
