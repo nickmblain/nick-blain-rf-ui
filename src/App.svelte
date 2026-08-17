@@ -3,11 +3,27 @@
   import MainContent from './lib/MainContent.svelte';
 
   let sidebarOpen = $state(false);
+  let currentPage = $state('guide');
+  let activeNavId = $state('attendees');
+
+  /**
+   * @param {string} page
+   * @param {string} id
+   */
+  function handleNavigate(page, id) {
+    currentPage = page;
+    activeNavId = id;
+  }
 </script>
 
 <div class="app">
-  <Sidebar open={sidebarOpen} onClose={() => (sidebarOpen = false)} />
-  <MainContent onMenuClick={() => (sidebarOpen = true)} />
+  <Sidebar
+    open={sidebarOpen}
+    onClose={() => (sidebarOpen = false)}
+    activeId={activeNavId}
+    onNavigate={handleNavigate}
+  />
+  <MainContent onMenuClick={() => (sidebarOpen = true)} page={currentPage} />
 </div>
 
 <style lang="scss">

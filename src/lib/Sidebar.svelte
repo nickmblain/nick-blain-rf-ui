@@ -3,19 +3,58 @@
   import eventLogo from '../assets/event-logo.png';
   import SearchIcon from './icons/SearchIcon.svelte';
 
-  let { open = false, onClose = () => {} } = $props();
+  let { open = false, onClose = () => {}, activeId = 'attendees', onNavigate = () => {} } = $props();
 
   const navSections = [
-    { id: 'guide', label: 'Guide', active: false, children: [] },
+    { id: 'guide', label: 'Guide', page: 'guide', children: [] },
     {
       id: 'attendees',
       label: 'Attendees',
-      active: true,
-      children: ['Attendees', 'Attendee types', 'Packages', 'Reg codes', 'Discounts'],
+      page: 'guide',
+      children: [
+        { id: 'attendees-list', label: 'Attendees' },
+        { id: 'attendee-types', label: 'Attendee types' },
+        { id: 'packages', label: 'Packages' },
+        { id: 'reg-codes', label: 'Reg codes' },
+        { id: 'discounts', label: 'Discounts' },
+      ],
     },
-    { id: 'content', label: 'Content', active: false, children: [] },
-    { id: 'exhibitors', label: 'Exhibitors', active: false, children: [] },
+    { id: 'content', label: 'Content', page: 'content', children: [] },
+    { id: 'exhibitors', label: 'Exhibitors', page: 'exhibitors', children: [] },
   ];
+
+  let query = $state('');
+
+  /**
+   * @param {typeof navSections} sections
+   * @param {string} needle
+   */
+  function filterSections(sections, needle) {
+    const q = needle.trim().toLowerCase();
+    if (!q) return sections;
+    return sections
+      .map((section) => {
+        if (section.label.toLowerCase().includes(q)) return section;
+        const matchingChildren = section.children.filter((child) => child.label.toLowerCase().includes(q));
+        if (matchingChildren.length) return { ...section, children: matchingChildren };
+        return null;
+      })
+      .filter((section) => section !== null);
+  }
+
+  let filteredSections = $derived(filterSections(navSections, query));
+
+  /** @param {typeof navSections[number]} section */
+  function selectSection(section) {
+    onNavigate(section.page, section.id);
+    onClose();
+  }
+
+  /** @param {typeof navSections[number]} section */
+  function selectChild(section) {
+    onNavigate(section.page, section.id);
+    onClose();
+  }
 </script>
 
 <div class="sidebar__scrim" class:sidebar__scrim--visible={open} onclick={onClose} aria-hidden="true"></div>
@@ -44,25 +83,36 @@
     <div class="sidebar__search-wrap">
       <label class="sidebar__search">
         <span class="sidebar__search-icon"><SearchIcon /></span>
-        <input class="sidebar__search-input" type="search" placeholder="Search" />
+        <input class="sidebar__search-input" type="search" placeholder="Search" bind:value={query} />
       </label>
     </div>
 
     <nav class="sidebar__nav">
-      {#each navSections as section (section.id)}
+      {#each filteredSections as section (section.id)}
         <div class="sidebar__nav-group">
-          <div class="sidebar__nav-item" class:sidebar__nav-item--active={section.active}>
-            <span class="sidebar__nav-dot" class:sidebar__nav-dot--active={section.active}></span>
+          <button
+            class="sidebar__nav-item"
+            class:sidebar__nav-item--active={section.id === activeId}
+            type="button"
+            onclick={() => selectSection(section)}
+          >
+            <span class="sidebar__nav-dot" class:sidebar__nav-dot--active={section.id === activeId}></span>
             <span class="sidebar__nav-label">{section.label}</span>
-          </div>
+          </button>
           {#if section.children.length}
             <ul class="sidebar__nav-children">
-              {#each section.children as child (child)}
-                <li class="sidebar__nav-child">{child}</li>
+              {#each section.children as child (child.id)}
+                <li>
+                  <button class="sidebar__nav-child" type="button" onclick={() => selectChild(section)}>
+                    {child.label}
+                  </button>
+                </li>
               {/each}
             </ul>
           {/if}
         </div>
+      {:else}
+        <p class="sidebar__nav-empty">No results for &ldquo;{query}&rdquo;.</p>
       {/each}
     </nav>
   </div>
@@ -204,7 +254,14 @@
       flex: 1;
     }
 
+    &__nav-empty {
+      padding: 8px 12px;
+      font-size: 13px;
+      color: $color-text-muted;
+    }
+
     &__nav-item {
+      width: 100%;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -213,10 +270,19 @@
       font-size: 14px;
       font-weight: 600;
       color: $color-text-muted;
+      text-align: left;
+
+      &:hover {
+        background: $color-search-bg;
+      }
 
       &--active {
         background: $color-purple-active-bg;
         color: $color-purple;
+
+        &:hover {
+          background: $color-purple-active-bg;
+        }
       }
     }
 
@@ -239,10 +305,13 @@
     }
 
     &__nav-child {
+      width: 100%;
+      display: block;
       padding: 8px 0;
       font-size: 14px;
       font-weight: 600;
       color: $color-text-muted;
+      text-align: left;
       cursor: pointer;
 
       &:hover {

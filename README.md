@@ -40,8 +40,12 @@ src/
   assets/           logo images used in the UI
   lib/
     icons/           small inline SVG icon components
+    pages/
+      GuidePage.svelte       the "Event setup guide" content (Steps 1-3)
+      ExhibitorsPage.svelte  Exhibitors list, search, and add-exhibitor UI
+      ComingSoonPage.svelte  placeholder used for nav items with no design
     Sidebar.svelte    left navigation (icon rail + nav panel, collapses to a drawer on mobile)
-    MainContent.svelte  event header + "Event setup guide" content
+    MainContent.svelte  shared shell (event header, top bar) that swaps in the active page
   styles/
     _variables.scss  colors, spacing, breakpoints
     _reset.scss      base element reset
@@ -53,3 +57,12 @@ src/
 ## Responsive behavior
 
 The layout is full-width on desktop. Below the tablet breakpoint, the sidebar collapses into a slide-in drawer triggered by a hamburger button, and card grids stack to a single column down to a 320px viewport.
+
+## Extra functionality
+
+Beyond the static mockup, the sidebar navigation is fully wired up:
+
+- **Working navigation** — every nav item and sub-item (Guide, Attendees and its children, Content, Exhibitors) is a real, clickable control that switches the active page in the main content area and updates the active/highlighted state in the sidebar.
+- **Sidebar search** — typing in the sidebar's search box filters the nav list live, matching against both top-level items and their children (a matching child keeps its parent group visible even if the parent's label doesn't match).
+- **A built-out Exhibitors page** — since only the Attendees/"Event setup guide" screen was provided in the design, the Exhibitors page was designed from scratch using the same visual language (colors, spacing, card and typography styles) as the rest of the app. It includes a sample exhibitor list, its own search-to-filter box, and an "Add Exhibitor" action.
+- The "Content" nav item routes to a small placeholder page, since no design was provided for it either.
