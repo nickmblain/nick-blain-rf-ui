@@ -5,7 +5,7 @@
 
   /**
    * @typedef {{ id: string, label: string, anchor?: string }} NavChild
-   * @typedef {{ id: string, label: string, page: string, anchor?: string, children: NavChild[] }} NavSection
+   * @typedef {{ id: string, label: string, anchor: string, children: NavChild[] }} NavSection
    */
 
   /**
@@ -13,7 +13,7 @@
    * @property {boolean} [open]
    * @property {() => void} [onClose]
    * @property {string} [activeId]
-   * @property {(page: string, id: string, anchor?: string) => void} [onNavigate]
+   * @property {(id: string, anchor?: string) => void} [onNavigate]
    */
 
   /** @type {Props} */
@@ -21,11 +21,10 @@
 
   /** @type {NavSection[]} */
   const navSections = [
-    { id: 'guide', label: 'Guide', page: 'guide', children: [] },
+    { id: 'guide', label: 'Guide', anchor: 'section-guide', children: [] },
     {
       id: 'attendees',
       label: 'Attendees',
-      page: 'guide',
       anchor: 'guide-module',
       children: [
         { id: 'attendees-list', label: 'Attendees', anchor: 'guide-module' },
@@ -35,8 +34,8 @@
         { id: 'discounts', label: 'Discounts' },
       ],
     },
-    { id: 'content', label: 'Content', page: 'content', children: [] },
-    { id: 'exhibitors', label: 'Exhibitors', page: 'exhibitors', children: [] },
+    { id: 'content', label: 'Content', anchor: 'section-content', children: [] },
+    { id: 'exhibitors', label: 'Exhibitors', anchor: 'section-exhibitors', children: [] },
   ];
 
   let query = $state('');
@@ -63,7 +62,7 @@
 
   /** @param {NavSection} section */
   function selectSection(section) {
-    onNavigate(section.page, section.id, section.anchor);
+    onNavigate(section.id, section.anchor);
     onClose();
   }
 
@@ -72,7 +71,7 @@
    * @param {NavChild} child
    */
   function selectChild(section, child) {
-    onNavigate(section.page, section.id, child.anchor);
+    onNavigate(section.id, child.anchor);
     onClose();
   }
 </script>

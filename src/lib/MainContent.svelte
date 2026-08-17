@@ -5,7 +5,7 @@
   import ExhibitorsPage from './pages/ExhibitorsPage.svelte';
   import ComingSoonPage from './pages/ComingSoonPage.svelte';
 
-  let { onMenuClick = () => {}, page = 'guide' } = $props();
+  let { onMenuClick = () => {} } = $props();
 </script>
 
 <main class="main">
@@ -28,13 +28,17 @@
       <button class="main__edit-btn" type="button">Edit event</button>
     </div>
 
-    {#if page === 'exhibitors'}
-      <ExhibitorsPage />
-    {:else if page === 'guide'}
+    <div id="section-guide" class="main__section">
       <GuidePage />
-    {:else}
+    </div>
+
+    <div id="section-content" class="main__section">
       <ComingSoonPage title="Content" />
-    {/if}
+    </div>
+
+    <div id="section-exhibitors" class="main__section">
+      <ExhibitorsPage />
+    </div>
   </div>
 </main>
 
@@ -116,6 +120,13 @@
       font-weight: 400;
       line-height: 24px;
       color: $color-text-body;
+    }
+
+    &__section {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      scroll-margin-top: 24px;
     }
   }
 

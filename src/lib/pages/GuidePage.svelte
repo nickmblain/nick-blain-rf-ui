@@ -104,6 +104,7 @@
       gap: 24px;
       padding-top: 24px;
       border-top: 1px solid $color-border;
+      scroll-margin-top: 24px;
     }
 
     &__module-header {
@@ -128,6 +129,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      scroll-margin-top: 24px;
     }
 
     &__step-label {

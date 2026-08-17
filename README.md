@@ -41,11 +41,11 @@ src/
   lib/
     icons/           small inline SVG icon components
     pages/
-      GuidePage.svelte       the "Event setup guide" content (Steps 1-3)
-      ExhibitorsPage.svelte  Exhibitors list, search, and add-exhibitor UI
-      ComingSoonPage.svelte  placeholder used for nav items with no design
+      GuidePage.svelte       the "Event setup guide" section (Steps 1-3)
+      ExhibitorsPage.svelte  Exhibitors section: list, search, and add-exhibitor UI
+      ComingSoonPage.svelte  placeholder used for the nav item with no design
     Sidebar.svelte    left navigation (icon rail + nav panel, collapses to a drawer on mobile)
-    MainContent.svelte  shared shell (event header, top bar) that swaps in the active page
+    MainContent.svelte  event header, top bar, and all page sections stacked in order
   styles/
     _variables.scss  colors, spacing, breakpoints
     _reset.scss      base element reset
@@ -60,10 +60,10 @@ The layout is full-width on desktop. Below the tablet breakpoint, the sidebar co
 
 ## Extra functionality
 
-Beyond the static mockup, the sidebar navigation is fully wired up:
+This is a true single-page app: Guide, Content, and Exhibitors are all sections stacked on the one page (not separate routes/views), and the sidebar nav is just a set of anchor links into that page.
 
-- **Working navigation** — every nav item and sub-item (Guide, Attendees and its children, Content, Exhibitors) is a real, clickable control that switches the active page in the main content area and updates the active/highlighted state in the sidebar.
-- **Anchor links to real sections** — where a sub-item corresponds to an actual section of the page, clicking it also smooth-scrolls straight to that section (e.g. "Attendees" jumps to the Attendee module, "Attendee types" jumps to the Step 1 card that defines attendee types). Sub-items with no matching section on the page just navigate normally.
+- **Working navigation** — every nav item and sub-item (Guide, Attendees and its children, Content, Exhibitors) is a real, clickable control that smooth-scrolls the page to the corresponding section and updates the active/highlighted state in the sidebar.
+- **Anchor links to the right spot within a section** — sub-items that correspond to a more specific spot scroll straight there (e.g. "Attendees" scrolls to the top of the Attendee module, "Attendee types" scrolls to the Step 1 card that defines attendee types). Sub-items with no matching spot on the page just scroll to the section itself.
 - **Sidebar search** — typing in the sidebar's search box filters the nav list live, matching against both top-level items and their children (a matching child keeps its parent group visible even if the parent's label doesn't match).
-- **A built-out Exhibitors page** — since only the Attendees/"Event setup guide" screen was provided in the design, the Exhibitors page was designed from scratch using the same visual language (colors, spacing, card and typography styles) as the rest of the app. It includes a sample exhibitor list, its own search-to-filter box, and an "Add Exhibitor" action.
-- The "Content" nav item routes to a small placeholder page, since no design was provided for it either.
+- **A built-out Exhibitors section** — since only the Attendees/"Event setup guide" screen was provided in the design, this section was designed from scratch using the same visual language (colors, spacing, card and typography styles) as the rest of the app. It includes a sample exhibitor list, its own search-to-filter box, and an "Add Exhibitor" action.
+- The "Content" nav item scrolls to a small placeholder section, since no design was provided for it either.

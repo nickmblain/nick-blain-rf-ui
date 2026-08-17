@@ -1,32 +1,20 @@
 <script>
-  import { tick } from 'svelte';
   import Sidebar from './lib/Sidebar.svelte';
   import MainContent from './lib/MainContent.svelte';
 
   let sidebarOpen = $state(false);
-  let currentPage = $state('guide');
   let activeNavId = $state('attendees');
-  let pendingAnchor = $state(/** @type {string | null} */ (null));
 
   /**
-   * @param {string} page
    * @param {string} id
    * @param {string} [anchor]
    */
-  function handleNavigate(page, id, anchor) {
-    currentPage = page;
+  function handleNavigate(id, anchor) {
     activeNavId = id;
-    pendingAnchor = anchor ?? null;
+    if (anchor) {
+      document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
-
-  $effect(() => {
-    if (!pendingAnchor || currentPage !== 'guide') return;
-    const id = pendingAnchor;
-    pendingAnchor = null;
-    tick().then(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
 </script>
 
 <div class="app">
@@ -36,7 +24,7 @@
     activeId={activeNavId}
     onNavigate={handleNavigate}
   />
-  <MainContent onMenuClick={() => (sidebarOpen = true)} page={currentPage} />
+  <MainContent onMenuClick={() => (sidebarOpen = true)} />
   <p class="credit">Authored by Nick Blain</p>
 </div>
 
