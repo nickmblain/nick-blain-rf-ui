@@ -245,6 +245,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
+      min-height: 24px;
       padding: 8px 8px 12px;
     }
 
