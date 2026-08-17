@@ -9,7 +9,7 @@
     <RocketIcon />
   </div>
   <h2 class="coming-soon__heading">{title}</h2>
-  <p class="coming-soon__description">This section hasn't been built out yet — check back soon.</p>
+  <p class="coming-soon__description">This section hasn't been built out yet, check back soon.</p>
 </section>
 
 <style lang="scss">

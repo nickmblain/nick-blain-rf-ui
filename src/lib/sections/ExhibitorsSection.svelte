@@ -24,7 +24,7 @@
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) return JSON.parse(raw);
     } catch {
-      // corrupt or unavailable storage — fall back to the seed list
+      // corrupt or unavailable storage, fall back to the seed list
     }
     return seedExhibitors;
   }
@@ -35,7 +35,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(exhibitors));
     } catch {
-      // storage unavailable (private browsing, quota, etc.) — fail silently
+      // storage unavailable (private browsing, quota, etc.), fail silently
     }
   });
 
@@ -80,7 +80,7 @@
       id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
       name: formName.trim(),
       category: formCategory.trim() || 'Uncategorized',
-      booth: formBooth.trim() || '—',
+      booth: formBooth.trim() || 'N/A',
       status: formStatus,
     };
     exhibitors = [newExhibitor, ...exhibitors];
