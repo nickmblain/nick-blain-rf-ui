@@ -88,7 +88,6 @@
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       align-items: center;
       padding: 12px 7.5px;
       border-right: 1px solid $color-border;
@@ -105,12 +104,12 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 8px 12px 24px;
     }
 
     &__rail-logo {
-      width: $rail-icon-size;
+      width: 100%;
       height: auto;
+      display: block;
     }
 
     &__rail-event {
@@ -128,10 +127,14 @@
     }
 
     &__rail-bottom {
+      position: fixed;
+      left: 0;
+      bottom: 16px;
+      width: $rail-width;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px 8px;
+      z-index: 60;
     }
 
     &__panel {

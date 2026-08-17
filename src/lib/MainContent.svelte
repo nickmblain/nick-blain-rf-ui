@@ -200,7 +200,6 @@
       font-weight: 400;
       line-height: 24px;
       color: $color-text-body;
-      max-width: 60ch;
     }
 
     &__module {
