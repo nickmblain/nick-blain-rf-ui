@@ -160,6 +160,9 @@
       align-items: center;
       padding: 12px 7.5px;
       border-right: 1px solid $color-border;
+      position: sticky;
+      top: 0;
+      height: 100vh;
     }
 
     &__rail-top {
@@ -212,6 +215,9 @@
       display: flex;
       flex-direction: column;
       padding: 12px 8px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
       overflow-y: auto;
     }
 
