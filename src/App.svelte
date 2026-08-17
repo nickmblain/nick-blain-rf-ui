@@ -4,6 +4,7 @@
 
   let sidebarOpen = $state(false);
   let activeNavId = $state('attendees');
+  let editButtonVisible = $state(true);
 
   /**
    * @param {string} id
@@ -23,8 +24,12 @@
     onClose={() => (sidebarOpen = false)}
     activeId={activeNavId}
     onNavigate={handleNavigate}
+    showCompactEdit={!editButtonVisible}
   />
-  <MainContent onMenuClick={() => (sidebarOpen = true)} />
+  <MainContent
+    onMenuClick={() => (sidebarOpen = true)}
+    onEditVisibilityChange={(visible) => (editButtonVisible = visible)}
+  />
   <p class="credit">Authored by Nick Blain</p>
 </div>
 

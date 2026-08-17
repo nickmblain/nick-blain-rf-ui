@@ -1,7 +1,9 @@
 <script>
+  import { scale } from 'svelte/transition';
   import rfLogo from '../assets/rf-logo.png';
   import eventLogo from '../assets/event-logo.png';
   import SearchIcon from './icons/SearchIcon.svelte';
+  import EditIcon from './icons/EditIcon.svelte';
 
   /**
    * @typedef {{ id: string, label: string, anchor?: string }} NavChild
@@ -14,10 +16,17 @@
    * @property {() => void} [onClose]
    * @property {string} [activeId]
    * @property {(id: string, anchor?: string) => void} [onNavigate]
+   * @property {boolean} [showCompactEdit]
    */
 
   /** @type {Props} */
-  let { open = false, onClose = () => {}, activeId = 'attendees', onNavigate = () => {} } = $props();
+  let {
+    open = false,
+    onClose = () => {},
+    activeId = 'attendees',
+    onNavigate = () => {},
+    showCompactEdit = false,
+  } = $props();
 
   /** @type {NavSection[]} */
   const navSections = [
@@ -96,6 +105,16 @@
   <div class="sidebar__panel">
     <div class="sidebar__header">
       <h1 class="sidebar__event-name">RainFocus Summit</h1>
+      {#if showCompactEdit}
+        <button
+          class="sidebar__edit-btn"
+          type="button"
+          aria-label="Edit event"
+          transition:scale={{ duration: 180, start: 0.5 }}
+        >
+          <EditIcon />
+        </button>
+      {/if}
     </div>
     <p class="sidebar__event-meta">Lehi, UT&nbsp;&bull;&nbsp;December 15th</p>
 
@@ -222,6 +241,10 @@
     }
 
     &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
       padding: 8px 8px 12px;
     }
 
@@ -230,6 +253,27 @@
       font-weight: 600;
       color: $color-text-header;
       line-height: 1.3;
+    }
+
+    &__edit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: $radius-sm;
+      color: $color-purple;
+      background: $color-purple-active-bg;
+      flex-shrink: 0;
+
+      &:hover {
+        background: rgba(92, 0, 220, 0.16);
+      }
+
+      :global(svg) {
+        width: 13px;
+        height: 13px;
+      }
     }
 
     &__event-meta {

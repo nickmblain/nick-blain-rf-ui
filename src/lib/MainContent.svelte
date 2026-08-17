@@ -1,11 +1,24 @@
 <script>
+  import { onMount } from 'svelte';
   import eventLogo from '../assets/event-logo.png';
   import MenuIcon from './icons/MenuIcon.svelte';
-  import GuidePage from './pages/GuidePage.svelte';
-  import ExhibitorsPage from './pages/ExhibitorsPage.svelte';
-  import ComingSoonPage from './pages/ComingSoonPage.svelte';
+  import GuideSection from './sections/GuideSection.svelte';
+  import ExhibitorsSection from './sections/ExhibitorsSection.svelte';
+  import ComingSoonSection from './sections/ComingSoonSection.svelte';
 
-  let { onMenuClick = () => {} } = $props();
+  let { onMenuClick = () => {}, onEditVisibilityChange = () => {} } = $props();
+
+  /** @type {HTMLButtonElement | undefined} */
+  let editBtnEl = $state();
+
+  onMount(() => {
+    if (!editBtnEl) return;
+    const observer = new IntersectionObserver(([entry]) => onEditVisibilityChange(entry.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(editBtnEl);
+    return () => observer.disconnect();
+  });
 </script>
 
 <main class="main">
@@ -25,19 +38,19 @@
           <p class="main__event-location">Lehi, Utah</p>
         </div>
       </div>
-      <button class="main__edit-btn" type="button">Edit event</button>
+      <button bind:this={editBtnEl} class="main__edit-btn" type="button">Edit event</button>
     </div>
 
     <div id="section-guide" class="main__section">
-      <GuidePage />
+      <GuideSection />
     </div>
 
     <div id="section-content" class="main__section">
-      <ComingSoonPage title="Content" />
+      <ComingSoonSection title="Content" />
     </div>
 
     <div id="section-exhibitors" class="main__section">
-      <ExhibitorsPage />
+      <ExhibitorsSection />
     </div>
   </div>
 </main>
