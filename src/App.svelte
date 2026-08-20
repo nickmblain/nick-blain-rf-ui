@@ -27,41 +27,37 @@
       ['section-exhibitors', 'exhibitors'],
     ];
 
-    /** @type {Map<Element, string>} */
-    const elementToNavId = new Map();
-    const visible = new Set();
+    const sections = sectionOrder
+      .map(([id, navId]) => ({ navId, el: document.getElementById(id) }))
+      .filter((section) => section.el);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const navId = elementToNavId.get(entry.target);
-          if (!navId) continue;
-          if (entry.isIntersecting) {
-            visible.add(navId);
-          } else {
-            visible.delete(navId);
-          }
-        }
-        for (let i = sectionOrder.length - 1; i >= 0; i--) {
-          const navId = sectionOrder[i][1];
-          if (visible.has(navId)) {
-            activeNavId = navId;
-            break;
-          }
-        }
-      },
-      { rootMargin: '0px 0px -80% 0px', threshold: 0 },
-    );
+    const ACTIVATION_LINE = 120;
 
-    for (const [id, navId] of sectionOrder) {
-      const el = document.getElementById(id);
-      if (el) {
-        elementToNavId.set(el, navId);
-        observer.observe(el);
+    function updateActiveSection() {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (scrolledToBottom) {
+        activeNavId = sections[sections.length - 1].navId;
+        return;
       }
+
+      let current = sections[0]?.navId ?? activeNavId;
+      for (const section of sections) {
+        if (section.el.getBoundingClientRect().top <= ACTIVATION_LINE) {
+          current = section.navId;
+        }
+      }
+      activeNavId = current;
     }
 
-    return () => observer.disconnect();
+    updateActiveSection();
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    window.addEventListener('resize', updateActiveSection);
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection);
+      window.removeEventListener('resize', updateActiveSection);
+    };
   });
 </script>
 
