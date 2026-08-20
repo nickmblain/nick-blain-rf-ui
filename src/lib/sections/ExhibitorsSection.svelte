@@ -1,5 +1,6 @@
 <script>
   import SearchIcon from '../icons/SearchIcon.svelte';
+  import StorefrontIcon from '../icons/StorefrontIcon.svelte';
   import Modal from '../Modal.svelte';
 
   const STORAGE_KEY = 'rf-ui:exhibitors';
@@ -89,7 +90,10 @@
 </script>
 
 <section class="exhibitors">
-  <h2 class="exhibitors__heading">Exhibitors</h2>
+  <div class="exhibitors__header">
+    <span class="exhibitors__icon"><StorefrontIcon /></span>
+    <h2 class="exhibitors__heading">Exhibitors</h2>
+  </div>
   <p class="exhibitors__description">
     Manage the companies exhibiting at your event, their booth assignments, and application status.
   </p>
@@ -171,6 +175,24 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    &__header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    &__icon {
+      display: flex;
+      width: $module-icon-size;
+      height: $module-icon-size;
+      flex-shrink: 0;
+
+      :global(svg) {
+        width: 100%;
+        height: 100%;
+      }
+    }
 
     &__heading {
       font-size: 24px;

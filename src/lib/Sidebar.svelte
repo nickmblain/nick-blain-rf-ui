@@ -1,6 +1,5 @@
 <script>
   import { scale } from 'svelte/transition';
-  import eventLogo from '../assets/event-logo.png';
   import SearchIcon from './icons/SearchIcon.svelte';
   import EditIcon from './icons/EditIcon.svelte';
   import RfLogoIcon from './icons/RfLogoIcon.svelte';
@@ -8,6 +7,7 @@
   /**
    * @typedef {{ id: string, label: string, anchor?: string }} NavChild
    * @typedef {{ id: string, label: string, anchor: string, children: NavChild[] }} NavSection
+   * @typedef {{ name: string, date: string, location: string, logo: string }} EventDetails
    */
 
   /**
@@ -17,6 +17,8 @@
    * @property {string} [activeId]
    * @property {(id: string, anchor?: string) => void} [onNavigate]
    * @property {boolean} [showCompactEdit]
+   * @property {EventDetails} event
+   * @property {() => void} [onEditEvent]
    */
 
   /** @type {Props} */
@@ -26,6 +28,8 @@
     activeId = 'attendees',
     onNavigate = () => {},
     showCompactEdit = false,
+    event,
+    onEditEvent = () => {},
   } = $props();
 
   /** @type {NavSection[]} */
@@ -93,8 +97,8 @@
       <div class="sidebar__rail-logo-wrap">
         <span class="sidebar__rail-logo" aria-label="RainFocus"><RfLogoIcon /></span>
       </div>
-      <button class="sidebar__rail-event" type="button" aria-label="RainFocus Summit">
-        <img class="sidebar__rail-event-icon" src={eventLogo} alt="" />
+      <button class="sidebar__rail-event" type="button" aria-label="Edit event" onclick={onEditEvent}>
+        <img class="sidebar__rail-event-icon" src={event.logo} alt="" />
       </button>
     </div>
     <div class="sidebar__rail-bottom">
@@ -104,19 +108,20 @@
 
   <div class="sidebar__panel">
     <div class="sidebar__header">
-      <h1 class="sidebar__event-name">RainFocus Summit</h1>
+      <h1 class="sidebar__event-name">{event.name}</h1>
       {#if showCompactEdit}
         <button
           class="sidebar__edit-btn"
           type="button"
           aria-label="Edit event"
+          onclick={onEditEvent}
           transition:scale={{ duration: 180, start: 0.5 }}
         >
           <EditIcon />
         </button>
       {/if}
     </div>
-    <p class="sidebar__event-meta">Lehi, UT&nbsp;&bull;&nbsp;December 15th</p>
+    <p class="sidebar__event-meta">{event.location}&nbsp;&bull;&nbsp;{event.date}</p>
 
     <div class="sidebar__search-wrap">
       <label class="sidebar__search">

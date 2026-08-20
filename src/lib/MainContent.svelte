@@ -1,14 +1,26 @@
 <script>
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
-  import eventLogo from '../assets/event-logo.png';
   import MenuIcon from './icons/MenuIcon.svelte';
   import EditIcon from './icons/EditIcon.svelte';
   import GuideSection from './sections/GuideSection.svelte';
   import ExhibitorsSection from './sections/ExhibitorsSection.svelte';
-  import ComingSoonSection from './sections/ComingSoonSection.svelte';
+  import ContentSection from './sections/ContentSection.svelte';
 
-  let { onMenuClick = () => {}, onEditVisibilityChange = () => {} } = $props();
+  /**
+   * @typedef {{ name: string, date: string, location: string, logo: string }} EventDetails
+   */
+
+  /**
+   * @typedef {object} Props
+   * @property {EventDetails} event
+   * @property {() => void} [onMenuClick]
+   * @property {(visible: boolean) => void} [onEditVisibilityChange]
+   * @property {() => void} [onEditEvent]
+   */
+
+  /** @type {Props} */
+  let { event, onMenuClick = () => {}, onEditVisibilityChange = () => {}, onEditEvent = () => {} } = $props();
 
   /** @type {HTMLButtonElement | undefined} */
   let editBtnEl = $state();
@@ -35,13 +47,13 @@
     </button>
     {#if !headerVisible}
       <div class="main__topbar-compact" transition:fade={{ duration: 150 }}>
-        <img class="main__topbar-compact-logo" src={eventLogo} alt="" />
+        <img class="main__topbar-compact-logo" src={event.logo} alt="" />
         <div class="main__topbar-compact-info">
-          <span class="main__topbar-compact-title">RainFocus Summit</span>
-          <span class="main__topbar-compact-meta">December 15th</span>
-          <span class="main__topbar-compact-meta">Lehi, Utah</span>
+          <span class="main__topbar-compact-title">{event.name}</span>
+          <span class="main__topbar-compact-meta">{event.date}</span>
+          <span class="main__topbar-compact-meta">{event.location}</span>
         </div>
-        <button class="main__topbar-compact-edit" type="button" aria-label="Edit event">
+        <button class="main__topbar-compact-edit" type="button" aria-label="Edit event" onclick={onEditEvent}>
           <EditIcon />
         </button>
       </div>
@@ -50,15 +62,15 @@
 
   <div class="main__body">
     <div class="main__event-header">
-      <img class="main__event-logo" src={eventLogo} alt="RainFocus Summit logo" />
+      <img class="main__event-logo" src={event.logo} alt="{event.name} logo" />
       <div class="main__event-info">
-        <h1 class="main__event-title">RainFocus Summit</h1>
+        <h1 class="main__event-title">{event.name}</h1>
         <div class="main__event-meta">
-          <p class="main__event-date">December 15th</p>
-          <p class="main__event-location">Lehi, Utah</p>
+          <p class="main__event-date">{event.date}</p>
+          <p class="main__event-location">{event.location}</p>
         </div>
       </div>
-      <button bind:this={editBtnEl} class="main__edit-btn" type="button">Edit event</button>
+      <button bind:this={editBtnEl} class="main__edit-btn" type="button" onclick={onEditEvent}>Edit event</button>
     </div>
 
     <div id="section-guide" class="main__section">
@@ -66,7 +78,7 @@
     </div>
 
     <div id="section-content" class="main__section">
-      <ComingSoonSection title="Content" />
+      <ContentSection />
     </div>
 
     <div id="section-exhibitors" class="main__section">

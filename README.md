@@ -45,7 +45,7 @@ src/
     sections/
       GuideSection.svelte       the "Event setup guide" section (Steps 1-3)
       ExhibitorsSection.svelte  Exhibitors section: list, search, add-exhibitor modal
-      ComingSoonSection.svelte  placeholder used for the nav item with no design
+      ContentSection.svelte     Content section: sessions/speakers/resources, search, filters, add-content modal
     Modal.svelte      reusable modal (backdrop, Escape-to-close, focus-friendly)
     Sidebar.svelte    left navigation (icon rail + sticky nav panel, collapses to a drawer on mobile)
     MainContent.svelte  event header, top bar, and all sections stacked in order on one page
